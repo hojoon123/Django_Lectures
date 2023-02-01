@@ -1,0 +1,8 @@
+.btn-primary{
+    background-color: rgb(31, 220, 220);
+    color:#e7e7e7;
+}
+.btn-primary:hover{
+    background-color: aqua;
+    color:#ffffff;
+}

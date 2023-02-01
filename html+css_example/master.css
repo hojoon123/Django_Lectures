@@ -1,0 +1,16 @@
+div{
+    background-color: orange;
+    color: blue;
+    border-width: 20px;
+    border-style: dashed;
+}
+span{
+    color: red;
+}
+.divClass{
+    color: red;
+}
+
+#divId{
+    color: blue;
+}
