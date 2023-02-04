@@ -1,0 +1,104 @@
+# 가상환경 설치
+python -m venv venv
+
+
+
+# 가상환경 진입
+venv/Scripts/activate
+난 왜 이걸로 안되지 그냥 가상환경 설치 후 cmd 창 새로 열면 가상환경으로 들어가짐
+
+
+
+# 가상환경 탈출
+deactivate
+
+
+
+# 프로젝트 생성
+django-admin startproject project_name
+
+
+# 디렉토리 진입
+cd 디렉토리명
+
+
+
+# 서버 실행
+python manage.py runserver (임의로 호스트 설정가능 ex 8080)
+
+# 서버 탈출
+터미널에서 Ctrl + C
+
+
+
+# 앱 생성하기
+python manage.py startapp app_name
+
+
+
+# veiws.py 작성
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse("헬로다 헬로 자식들아")
+
+
+
+
+# 앱의 urls.py
+from django.urls import path
+from . import views # .은 현재 디렉토리 현재 디렉토리에 views를 import해라
+
+urlpatterns = [
+    path('', views.index, name = 'index') # /my_apps --> Project urls.py
+]
+
+
+
+# 메인 urls.py
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('first_app/', include('first_app.urls')) # 앱명, 앱.urls
+]
+
+
+
+# 메인 urls에서 home 설정
+from django.http.response import HttpResponse
+
+def home_view(request):
+    return HttpResponse("Home page")
+
+urlpatterns = [path('',home_view)]
+
+
+
+# 일반적인 방법 프로젝트에 views.py 생성
+from django.http.response import HttpResponse
+
+def home_view(request):
+    return HttpResponse("Home pagedesu")
+
+# 메인 urls.py
+from . import views
+urlpatterns = [path('', views.home_view)]
+
+
+
+# 뷰를 딕셔너리 형태로
+articles = {
+    'sports' : 'Sports page',
+    'news' : 'News page',
+    "oking's" : "Oking's page"
+}
+
+def simple_view(request, topic):
+    return HttpResponse(articles[topic])
+
+# url 경로를 key 값으로
+path('<topic>',views.simple_view)
