@@ -100,5 +100,116 @@ articles = {
 def simple_view(request, topic):
     return HttpResponse(articles[topic])
 
-# url 경로를 key 값으로
-path('<topic>',views.simple_view)
+# 화살괄호 동적 업데이트
+path('<topic>',views.simple_view, name = 'page_name')
+
+
+
+# HttpResponseNotFound 활용
+import HttpResponseNotFound
+
+try:
+    result = articles[topic]
+    return HttpResponse(result)
+except:
+    result = 'No page for that topic'
+    return HttpResponseNotFound(result)
+
+
+
+# 404 활용(일반적)
+import Http404
+
+except:
+    raise Http404()
+
+settings.py  / deung = False / ALLOWED_HOSTS =['127.0.0.1'] 하면 확인 가능
+
+
+
+# page 넘버링화
+def num_page_view(request,num_page):
+    try:
+        topic_list = list(articles.keys())
+        topic = topic_list[num_page]
+
+        return HttpResponseRedirect('name명', args = [topic])
+    except:
+        raise Http404()
+path 경로가 이후 이동 할 페이지 보다 먼저 와야함... 불편 다른 방법이 있겠찌
+
+
+
+
+# 템플릿
+manage.py와 같은 위치 즉 최상위 디렉토리의 자식으로
+templates 폴더 생성
+templates - 원하는 app과 동일한 폴더명으로 생성 - html 파일 넣기
+
+# 단순하게 하기
+views.py
+def simple_view(request):
+    return render(request,'second_app/example.html') #.html
+
+# settings.py
+import os
+
+templates에서
+# 의미하는 바 템플릿을 찾을 때 찾아야 할 다른 디렉토리가 있는데 그건 BASE_DIR,'templates/'다
+'DIRS': [os.path.join(BASE_DIR,'templates/')],
+일반적으로 이렇게 안씀 앞으로 이거 벤벤
+
+
+
+
+# 템플릿(찐)
+# py manage.py migrate 이게 맞음
+    views에서 html 렌더하고
+    url 등록까지 끝마친 뒤에 
+    migrate 진행
+    아직 templates 폴더 생성 x
+
+# 이후 app 추가
+INSTALLED_APPS = [
+    #'앱명.apps.class명',
+    'first_app.apps.FirstAppConfig',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+
+# py manage.py makemigrations 앱명
+모델과 데이터베이가 없으면 No changes detected in app 'first_app' 라고 뜸
+
+실제로 모델과 데이터베이스를 변경하고 변경 사항을 게시하려면
+py manage.py migrate 입력
+
+
+
+
+# 변수 설정
+views.py
+Render 하기 전에 변수(딕셔너리) 생성
+이후 retrun render에서 context = 변수명
+
+def variable_view(request):
+    
+    my_var = {'first_name':'K', 'last_name' : 'HJ',
+              'some_list' : [1,2,3], 'some_dic' : {'inside_key' :'inside_value'},
+    }
+    return render(request,'first_app/variable.html', context= my_var)
+
+# HTML에서{{Key}} --> 홈페이지에 Value 값 출력
+
+    <h2>{{first_name}}</h2>
+    <h2>{{last_name}}</h2>
+    <h2>{{some_list.0}}</h2> # list index는 .num 으로 표현
+    <h2>{{some_dic.inside_key}}</h2> # 2중 딕셔너리는 내부 값을 이용
+    {#thi is a comment #}
+
+
+
+
