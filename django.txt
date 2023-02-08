@@ -1,3 +1,21 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # 가상환경 설치
 python -m venv venv
 
@@ -212,4 +230,100 @@ def variable_view(request):
 
 
 
+# 장고 템플릿에는 필터라는 것이 있음.
+https://docs.djangoproject.com/en/4.1/ref/templates/language/#filters
+자세한 사항은 아래 링크에서 탐색 가능
+유용한 필터가 정말 많음
 
+
+
+# 태그 {% %} for  
+
+    <ul>
+    {% for item in some_list %}
+        <li>{{item}}</li>
+    {% endfor %}
+    </ul>
+
+    <ul>
+        {% for k, v in some_dic.items %}
+            <li>{{k}}</li>
+            <li>{{v}}</li>
+        {% endfor %}
+    </ul>
+
+
+
+
+# 태그 { } if else elif
+
+{% if user_logged_in %}
+    <h1>Welcome {{first_name}}{{last_name}}!</h1>
+
+{% if num == 1 %} 태그는 공백을 구분함 num == 저 사이의 공백이 필수 없으면 안됨
+    <ul>
+    {% for num in some_list %}
+
+    {% if num == 1 %}
+        <li>ONE</li>
+
+    {% elif num == 3 %}
+        <li>THREE</li>
+        
+    {% else %}
+        <li>{{num}}</li>
+
+    {% endif %}
+    {% endfor %}
+    </ul>
+
+
+
+
+
+# a태그 (장고활용)
+<h1>Click <a href = "{% url 'first_app:variable' %}">Here</a> To Go To VARIABLE</h1>
+
+
+
+
+
+
+
+# block html의 상속
+Base가 되는 html을 두고 그 사이에 block 에 해당하는 공간에 여러가지 줄 수 있음.
+
+# base.html
+<body>
+    <h1>THIS IS ABOVE THE BLOCK IN BASE.HTML</h1>
+    {% block content %}
+    
+
+    {% endblock %}
+    <h1>THIS IS BELOW THE BLOCK IN BASE.HTML</h1>
+</body>
+
+# example.html
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>EXAMPLE TEMPLATES!</h1>
+  <h1>Click <a href = "{% url 'first_app:variable' %}">Here</a> To Go To VARIABLE</h1>
+{% endblock  %}
+
+# settings.py
+import os
+
+templates = [
+'DIRS': [os.path.join(BASE_DIR,'templates')],
+]
+
+
+
+
+# 404.html
+templates에서 404.html 로 만들어주어야 함.
+장고에서 설정한 기본
+다른 걸로 바꿀 순 있는데 일반적으로 그냥 404 씀 나중에 필요하게 되면 찾아보겠다만
+거의 안 찾을 듯

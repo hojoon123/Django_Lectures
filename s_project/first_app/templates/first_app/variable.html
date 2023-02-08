@@ -7,9 +7,44 @@
 </head>
 <body>
     <h1>VARIABLE.HTML</h1>
-    <h2>Him first name was {{first_name}} and him last name was {{last_name}} </h2>
+    <h2>Him first name was {{first_name | upper}} and him last name was {{last_name}} </h2>
     <h2>{{some_list.0}}</h2>
     <h2>{{some_dic.inside_key}}</h2>
         {#thi is a comment #}
+    <ul>
+    {% for item in some_list %}
+        <li>{{item}}</li>
+    {% endfor %}
+    </ul>
+
+    <ul>
+        {% for k, v in some_dic.items %}
+            <li>{{k}}</li>
+            <li>{{v}}</li>
+        {% endfor %}
+    </ul>
+
+    {% if user_logged_in %}
+    <h1>Welcome {{first_name}}{{last_name}}!</h1>
+
+    {% endif %}
+
+    <ul>
+    {% for num in some_list %}
+
+    {% if num == 1 %}
+        <li>ONE</li>
+
+    {% elif num == 3 %}
+        <li>THREE</li>
+
+    {% else %}
+        <li>{{num}}</li>
+
+    {% endif %}
+    {% endfor %}
+    </ul>
+
+    
 </body>
 </html>
